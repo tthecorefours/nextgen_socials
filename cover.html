@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NextGen Socials</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Auto redirect after 3 seconds -->
+  <meta http-equiv="refresh" content="3;url=https://trrishvin.github.io/Nextgen_socials/" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(18px);
+      padding: 55px 45px;
+      border-radius: 22px;
+      text-align: center;
+      animation: fadeIn 1.2s ease;
+      box-shadow: 0 0 40px rgba(0,0,0,0.45);
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      opacity: 0.9;
+      margin-bottom: 30px;
+      font-size: 1.05rem;
+    }
+
+    .loader {
+      width: 45px;
+      height: 45px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top: 4px solid #4facfe;
+      border-radius: 50%;
+      margin: 0 auto 30px;
+      animation: spin 1s linear infinite;
+    }
+
+    a {
+      text-decoration: none;
+      padding: 16px 38px;
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+      color: black;
+      font-weight: 600;
+      border-radius: 35px;
+      display: inline-block;
+      animation: glow 1.8s infinite alternate;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 10px rgba(79,172,254,0.4);
+      }
+      to {
+        box-shadow: 0 0 30px rgba(79,172,254,0.9);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>NextGen Socials</h1>
+    <p>Loading your experience…</p>
+
+    <div class="loader"></div>
+
+    <a href="https://trrishvin.github.io/Nextgen_socials/">Enter NextGen Socials</a>
+  </div>
+</body>
+</html>
