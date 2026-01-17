@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NextGen Socials</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: radial-gradient(circle at top, #0f2027, #0b0f14);
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* Scroll progress */
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #1abc9c, #9b5cff);
+      z-index: 9999;
+    }
+
+    /* Floating blobs */
+    .blob {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      background: linear-gradient(135deg, #1abc9c, #9b5cff);
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.35;
+      animation: float 14s infinite alternate ease-in-out;
+      z-index: -1;
+    }
+    .blob.one { top: -80px; left: -80px; }
+    .blob.two { bottom: -120px; right: -120px; animation-delay: 4s; }
+
+    @keyframes float {
+      from { transform: translate(0, 0); }
+      to { transform: translate(60px, -80px); }
+    }
+
+    /* Fade-in */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fade-in.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    header {
+      padding: 90px 20px 80px;
+      text-align: center;
+      background: linear-gradient(135deg, #1abc9c, #9b5cff);
+      animation: slideDown 1.2s ease-out;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-60px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3.6rem;
+      letter-spacing: 1px;
+    }
+    header p {
+      font-size: 1.25rem;
+      max-width: 720px;
+      margin: 18px auto 0;
+    }
+
+    section {
+      padding: 90px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .about, .socials {
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #e0e0e0;
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .social-card {
+      background: rgba(22,27,34,0.9);
+      backdrop-filter: blur(8px);
+      padding: 30px 20px;
+      border-radius: 20px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+    .social-card.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .social-card:hover {
+      transform: translateY(-14px) scale(1.07) rotate(-1deg);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.55);
+    }
+
+    .social-card a {
+      text-decoration: none;
+      color: #1abc9c;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    footer {
+      padding: 30px 20px;
+      text-align: center;
+      background: #0e131a;
+      font-size: 0.9rem;
+      color: #aaaaaa;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="progress"></div>
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+
+  <header>
+    <h1>NextGen Socials</h1>
+    <p>Empowering the next generation through social awareness, digital responsibility, and positive change.</p>
+  </header>
+
+  <section class="about fade-in">
+    <h2>About Us</h2>
+    <p>
+      NextGen Socials is a social awareness initiative focused on educating, inspiring, and connecting people on issues that matter.
+      From mental health and digital well-being to community action and creative expression, we believe social media can be a force for good.
+    </p>
+  </section>
+
+  <section class="socials fade-in">
+    <h2>Connect With Us</h2>
+    <div class="social-grid">
+      <div class="social-card"><a href="#">Instagram</a></div>
+      <div class="social-card"><a href="#">Facebook</a></div>
+      <div class="social-card"><a href="#">LinkedIn</a></div>
+      <div class="social-card"><a href="#">Reddit</a></div>
+      <div class="social-card"><a href="#">SoundCloud</a></div>
+      <div class="social-card"><a href="#">Pinterest</a></div>
+      <div class="social-card"><a href="#">Blog</a></div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 NextGen Socials. All rights reserved.
+  </footer>
+
+  <script>
+    const faders = document.querySelectorAll('.fade-in');
+    const cards = document.querySelectorAll('.social-card');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.2 });
+
+    faders.forEach(el => observer.observe(el));
+    cards.forEach((card, i) => {
+      setTimeout(() => observer.observe(card), i * 120);
+    });
+
+    const progress = document.querySelector('.progress');
+    window.addEventListener('scroll', () => {
+      const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      progress.style.width = scrolled + '%';
+    });
+  </script>
+
+</body>
+</html>
