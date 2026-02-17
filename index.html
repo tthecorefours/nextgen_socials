@@ -18,22 +18,48 @@
       --title-color: #ffffff;
       --desc-color: #888;
       --nav-bg: rgba(0,0,0,0.3);
-      --icon-fill: #888;
     }
 
-    [data-theme="light"] {
-      --bg-color: #f5f6fa;
-      --page-gradient: linear-gradient(135deg, #f5f6fa 0%, #e9ecef 100%);
-      --header-gradient: radial-gradient(circle at center, #fff3e0 0%, rgba(245,246,250,0) 80%);
-      --card-bg: #ffffff;
-      --card-text: #111;
-      --card-subtext: #444;
-      --title-color: #1c1e22;
-      --desc-color: #555;
-      --nav-bg: rgba(255,255,255,0.8);
-      --icon-fill: var(--primary-orange);
+    /* --- LOADING SCREEN --- */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: opacity 0.8s ease, visibility 0.8s;
     }
 
+    .loader-logo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: url('logo.jpg') center/cover no-repeat;
+      box-shadow: 0 0 20px rgba(230, 126, 34, 0.3);
+      animation: gourmetPulse 2s infinite ease-in-out;
+    }
+
+    .loader-text {
+      margin-top: 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--primary-orange);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    @keyframes gourmetPulse {
+      0%, 100% { transform: scale(0.95); filter: brightness(1); }
+      50% { transform: scale(1.05); filter: brightness(1.2) drop-shadow(0 0 15px var(--primary-orange)); }
+    }
+
+    .loader-hidden { opacity: 0; visibility: hidden; }
+
+    /* --- GLOBAL STYLES --- */
     * { box-sizing: border-box; transition: all 0.3s ease; }
 
     body {
@@ -66,7 +92,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 50px;
+      padding: 10px 50px;
       background: var(--nav-bg);
       position: sticky;
       top: 0;
@@ -74,24 +100,17 @@
       backdrop-filter: blur(10px);
     }
 
-    .logo { font-weight: 900; letter-spacing: 2px; color: var(--primary-orange); text-transform: uppercase; }
-
-    .theme-switch-wrapper { display: flex; align-items: center; gap: 10px; }
-    .theme-switch { display: inline-block; height: 20px; position: relative; width: 40px; }
-    .theme-switch input { display: none; }
-    .slider { background-color: #444; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
-    .slider:before { background-color: #fff; bottom: 3px; content: ""; height: 14px; left: 3px; position: absolute; transition: .4s; width: 14px; border-radius: 50%; }
-    input:checked + .slider { background-color: var(--primary-orange); }
-    input:checked + .slider:before { transform: translateX(20px); }
+    .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-orange); }
+    .logo-text { font-weight: 900; letter-spacing: 2px; color: var(--primary-orange); text-transform: uppercase; }
 
     header { text-align: center; padding: 60px 20px 20px; background: var(--header-gradient); }
     header h1 { font-size: clamp(3rem, 10vw, 5.5rem); margin: 0; letter-spacing: 6px; text-transform: uppercase; font-weight: 900; }
-    header h2 { font-size: clamp(1.2rem, 4vw, 2.2rem); margin: 15px 0; font-weight: 300; }
     .orange-divider { width: 80%; max-width: 900px; height: 5px; background: var(--primary-orange); margin: 30px auto; border-radius: 2px; }
 
     .container { max-width: 1200px; margin: auto; padding: 20px 20px 100px; position: relative; }
 
-    /* EXPANDED BLOG SECTION */
+    /* Blog Section */
     .featured-blog {
       background: var(--card-bg);
       border-radius: 25px;
@@ -106,27 +125,11 @@
     .blog-content h2 { font-size: 2rem; margin: 0 0 15px 0; font-weight: 900; text-transform: uppercase; color: var(--secondary-orange); }
     .rating-badge { background: #27ae60; color: white; padding: 5px 15px; border-radius: 20px; font-weight: 900; display: inline-block; margin-bottom: 20px; }
     .blog-content h3 { font-size: 1.2rem; margin: 25px 0 10px 0; font-weight: 700; color: #111; border-left: 3px solid var(--primary-orange); padding-left: 10px; }
-    .blog-content p { font-size: 1rem; line-height: 1.7; color: var(--card-subtext); margin-bottom: 15px; }
     
     #more-content { display: none; margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 20px; }
-    
-    .read-more-btn {
-      background: var(--primary-orange);
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 0.8rem;
-    }
+    .read-more-btn { background: var(--primary-orange); color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
 
-    /* Confetti Animation */
-    .confetti { position: absolute; font-size: 2rem; pointer-events: none; z-index: 100; animation: fly 1s ease-out forwards; }
-    @keyframes fly { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) rotate(360deg); opacity: 0; } }
-
-    /* SOCIAL GRID */
+    /* Social Grid */
     .section-title-line { border-bottom: 2px solid var(--primary-orange); margin: 60px 0 40px; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 3px; }
     .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
 
@@ -141,10 +144,7 @@
       flex-direction: column;
       justify-content: space-between;
       min-height: 220px;
-      opacity: 0;
-      transform: translateY(30px);
     }
-    .social-card.reveal { opacity: 1; transform: translateY(0); }
     
     .social-card h3 { 
         font-family: 'Playfair Display', serif; 
@@ -153,52 +153,31 @@
         color: var(--secondary-orange);
     }
 
-    .show-btn {
-      background: var(--primary-orange);
-      color: white !important;
-      text-decoration: none;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      display: inline-block;
-      width: fit-content;
-    }
+    .show-btn { background: var(--primary-orange); color: white !important; text-decoration: none; padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; display: inline-block; width: fit-content; }
 
-    .food-badge {
-      position: absolute;
-      bottom: -20px;
-      right: -15px;
-      width: 75px;
-      height: 75px;
-      background: var(--secondary-orange);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 2.5rem;
-      border: 5px solid var(--bg-color);
-    }
+    .confetti { position: absolute; font-size: 2rem; pointer-events: none; z-index: 100; animation: fly 1s ease-out forwards; }
+    @keyframes fly { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) rotate(360deg); opacity: 0; } }
 
-    footer { text-align: center; padding: 60px; color: var(--desc-color); font-size: 0.8rem; letter-spacing: 2px; }
+    footer { text-align: center; padding: 60px; color: var(--desc-color); display: flex; flex-direction: column; align-items: center; gap: 15px; }
+    .footer-logo { width: 50px; height: 50px; border-radius: 50%; opacity: 0.5; filter: grayscale(1); }
   </style>
 </head>
 <body>
+
+  <div id="loader">
+    <div class="loader-logo"></div>
+    <div class="loader-text">TheCoreFive</div>
+  </div>
 
   <div class="bg-food" style="top:15%; left:5%;">🍕</div>
   <div class="bg-food" style="top:45%; right:8%;">🍔</div>
   <div class="bg-food" style="top:75%; left:12%;">🍣</div>
   <div class="bg-food" style="top:25%; right:20%;">🌮</div>
-  <div class="bg-food" style="top:85%; right:15%;">🍟</div>
 
   <nav>
-    <div class="logo">TheCoreFive</div>
-    <div class="theme-switch-wrapper">
-      <label class="theme-switch" for="checkbox">
-        <input type="checkbox" id="checkbox" />
-        <div class="slider"></div>
-      </label>
+    <div class="nav-brand">
+        <img src="logo.jpg" alt="Logo" class="nav-logo-img">
+        <div class="logo-text">TheCoreFive</div>
     </div>
   </nav>
 
@@ -209,26 +188,22 @@
   </header>
 
   <div class="container">
-    <section class="featured-blog" id="blog-box">
+    <section class="featured-blog">
         <div class="blog-content">
             <span class="rating-badge">Rating: 8/10 ⭐</span>
             <h2>The Crispy Chicken Standard: Fried Nation, Mira Road</h2>
-            <p>Mira Road’s food scene is booming, but <strong>Fried Nation</strong> is currently setting a high bar for local comfort food. I recently visited the outlet to test their signature <em>Crispy Chicken Burger</em>—a trendy item that promises a lot and, surprisingly, delivers on most of it.</p>
+            <p>Mira Road’s food scene is booming, but <strong>Fried Nation</strong> is currently setting a high bar for local comfort food. I recently visited the outlet to test their signature <em>Crispy Chicken Burger</em>—a trendy item that promises a lot and delivers on most of it.</p>
             
             <h3>🥯 Construction & First Impressions</h3>
-            <p>A burger is only as good as its structure. Fried Nation’s presentation is on point; the burger arrives well-packed, ensuring the bun stays fluffy rather than soggy. The bun is tender with a slight char, providing a fresh, toasted base for the main event.</p>
+            <p>A burger is only as good as its structure. Fried Nation’s presentation is on point; the burger arrives well-packed, ensuring the bun stays fluffy rather than soggy.</p>
 
             <button class="read-more-btn" id="read-more" onclick="showMore()">Continue Reading</button>
 
             <div id="more-content">
                 <h3>🍗 The Patty: Crunch vs. Juice</h3>
-                <p>The standout feature is the chicken patty. It strikes that elusive balance of a golden-brown, jagged exterior with a remarkably tender interior. The seasoning is "middle-of-the-road" in the best way—savory enough to satisfy but not so spicy that it masks the chicken's quality.</p>
-                
-                <h3>🥗 The Sauce & Toppings</h3>
-                <p>The patty is elevated by a creamy house sauce that adds a necessary tang. Combined with crisp lettuce and fresh fillings, every bite offers a cool crunch that balances the richness of the fried chicken. It’s simple, effective, and hits the spot.</p>
-
+                <p>The standout feature is the chicken patty. It strikes that elusive balance of a golden-brown, jagged exterior with a remarkably tender interior. The seasoning is savory enough to satisfy but not so spicy that it masks the chicken's quality.</p>
                 <h3>⭐ The Final Verdict</h3>
-                <p>While it might not be the most "experimental" burger in town, it executes the classics flawlessly. At a reasonable price point, it’s a perfect go-to for a fast meal or a casual hangout. For those in Mira Road, this is a solid <strong>8/10</strong> experience that is definitely worth the trip.</p>
+                <p>While it might not be the most "experimental" burger in town, it executes the classics flawlessly. For those in Mira Road, this is a solid <strong>8/10</strong> experience.</p>
             </div>
         </div>
     </section>
@@ -238,57 +213,35 @@
       <div class="social-card">
         <h3>Instagram</h3>
         <p>Visual plating highlights and daily behind-the-scenes stories.</p>
-        <a href="https://www.instagram.com/thecorefive1357?igsh=MWNnZjZvOWVoeTRsdQ%3D%3D&utm_source=qr" target="_blank" class="show-btn">SHOW</a>
-        <div class="food-badge">📸</div>
-      </div>
-      <div class="social-card">
-        <h3>Facebook</h3>
-        <p>Join our community discussions and local food events.</p>
-        <a href="https://www.facebook.com/share/17ydoVNP3T/?mibextid=wwXIfr" target="_blank" class="show-btn">SHOW</a>
-        <div class="food-badge">👥</div>
-      </div>
-      <div class="social-card">
-        <h3>LinkedIn</h3>
-        <p>Professional side of hospitality and food-tech trends.</p>
-        <a href="https://www.linkedin.com/posts/thecore-four-0737203a5_as-you-pass-the-sgnp-gates-in-2026-the-vibrant-activity-7416537096653398016--GCH" target="_blank" class="show-btn">SHOW</a>
-        <div class="food-badge">👔</div>
-      </div>
-      <div class="social-card">
-        <h3>Reddit</h3>
-        <p>Unfiltered community chat on hidden food spots.</p>
-        <a href="https://www.reddit.com/r/indiasocialcirclejerk/s/pS5dmLAAQ5" target="_blank" class="show-btn">SHOW</a>
-        <div class="food-badge">💬</div>
+        <a href="https://www.instagram.com/p/DTanASSCHhO/?igsh=OWduc3U4ZTN1cWE3" target="_blank" class="show-btn">SHOW</a>
       </div>
       <div class="social-card">
         <h3>YouTube</h3>
         <p>Full-length food tours and cinematic kitchen deep-dives.</p>
         <a href="https://youtube.com/shorts/TI6-XvMByfo?si=2sCDo9M_RD3-pZPv" target="_blank" class="show-btn">SHOW</a>
-        <div class="food-badge">🎥</div>
-      </div>
-      <div class="social-card">
-        <h3>Pinterest</h3>
-        <p>Curated boards of food aesthetics and table settings.</p>
-        <a href="https://pin.it/LYTw9q2bM" target="_blank" class="show-btn">SHOW</a>
-        <div class="food-badge">📌</div>
-      </div>
-      <div class="social-card">
-        <h3>Threads</h3>
-        <p>Quick bites of flavor-filled conversation.</p>
-        <a href="https://www.threads.com/@thecorefive1357" target="_blank" class="show-btn">SHOW</a>
-        <div class="food-badge">🧵</div>
       </div>
       <div class="social-card">
         <h3>X (Twitter)</h3>
         <p>Real-time restaurant alerts and instant meal ratings.</p>
         <a href="https://x.com/i/status/2010773042587443225" target="_blank" class="show-btn">SHOW</a>
-        <div class="food-badge">🐦</div>
       </div>
     </div>
   </div>
 
-  <footer>© 2026 THECOREFIVE | CURATING TASTE GLOBALLY</footer>
+  <footer>
+    <img src="logo.jpg" alt="Footer Logo" class="footer-logo">
+    <div>© 2026 THECOREFIVE | CURATING TASTE GLOBALLY</div>
+  </footer>
 
   <script>
+    // LOADER DISMISSAL
+    window.addEventListener("load", function() {
+        const loader = document.getElementById("loader");
+        setTimeout(() => {
+            loader.classList.add("loader-hidden");
+        }, 1500); 
+    });
+
     function showMore() {
         const moreText = document.getElementById("more-content");
         const btnText = document.getElementById("read-more");
@@ -319,16 +272,6 @@
             setTimeout(() => span.remove(), 1000);
         }
     }
-
-    const toggleSwitch = document.querySelector('#checkbox');
-    toggleSwitch.addEventListener('change', (e) => {
-        document.documentElement.setAttribute('data-theme', e.target.checked ? 'light' : 'dark');
-    });
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('reveal'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.social-card').forEach(card => observer.observe(card));
   </script>
 </body>
 </html>
