@@ -3,201 +3,332 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NextGen Socials</title>
+  <title>TheCoreFive | Urban Eats & Reviews</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-orange: #e67e22;
+      --secondary-orange: #d35400;
+      --bg-color: #1c1e22;
+      --page-gradient: linear-gradient(135deg, #1c1e22 0%, #2c2f33 100%);
+      --header-gradient: radial-gradient(circle at center, #3a2a1d 0%, rgba(28,30,34,0) 80%);
+      --card-bg: #ffffff;
+      --card-text: #1a1a1a;
+      --card-subtext: #555;
+      --title-color: #ffffff;
+      --desc-color: #888;
+      --nav-bg: rgba(0,0,0,0.3);
+      --icon-fill: #888;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #f5f6fa;
+      --page-gradient: linear-gradient(135deg, #f5f6fa 0%, #e9ecef 100%);
+      --header-gradient: radial-gradient(circle at center, #fff3e0 0%, rgba(245,246,250,0) 80%);
+      --card-bg: #ffffff;
+      --card-text: #111;
+      --card-subtext: #444;
+      --title-color: #1c1e22;
+      --desc-color: #555;
+      --nav-bg: rgba(255,255,255,0.8);
+      --icon-fill: var(--primary-orange);
+    }
+
+    * { box-sizing: border-box; transition: all 0.3s ease; }
+
     body {
       margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: radial-gradient(circle at top, #0f2027, #0b0f14);
-      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--page-gradient);
+      background-attachment: fixed;
+      color: var(--title-color);
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    /* Scroll progress */
-    .progress {
+    /* Floating Background Emojis */
+    .bg-food {
       position: fixed;
-      top: 0;
-      left: 0;
-      height: 4px;
-      width: 0;
-      background: linear-gradient(90deg, #1abc9c, #9b5cff);
-      z-index: 9999;
-    }
-
-    /* Floating blobs */
-    .blob {
-      position: absolute;
-      width: 320px;
-      height: 320px;
-      background: linear-gradient(135deg, #1abc9c, #9b5cff);
-      border-radius: 50%;
-      filter: blur(90px);
-      opacity: 0.35;
-      animation: float 14s infinite alternate ease-in-out;
-      z-index: -1;
-    }
-    .blob.one { top: -80px; left: -80px; }
-    .blob.two { bottom: -120px; right: -120px; animation-delay: 4s; }
-
-    @keyframes float {
-      from { transform: translate(0, 0); }
-      to { transform: translate(60px, -80px); }
-    }
-
-    /* Fade-in */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .fade-in.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    header {
-      padding: 90px 20px 80px;
-      text-align: center;
-      background: linear-gradient(135deg, #1abc9c, #9b5cff);
-      animation: slideDown 1.2s ease-out;
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-60px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 3.6rem;
-      letter-spacing: 1px;
-    }
-    header p {
-      font-size: 1.25rem;
-      max-width: 720px;
-      margin: 18px auto 0;
-    }
-
-    section {
-      padding: 90px 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .about, .socials {
-      text-align: center;
-    }
-
-    h2 {
       font-size: 2.5rem;
-      margin-bottom: 20px;
+      opacity: 0.12;
+      z-index: -1;
+      pointer-events: none;
+      animation: floatAround 20s infinite linear alternate;
     }
 
-    .about p {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: #e0e0e0;
+    @keyframes floatAround {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(100px, 50px) rotate(30deg); }
     }
 
-    .social-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 28px;
-      margin-top: 40px;
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      background: var(--nav-bg);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
     }
+
+    .logo { font-weight: 900; letter-spacing: 2px; color: var(--primary-orange); text-transform: uppercase; }
+
+    .theme-switch-wrapper { display: flex; align-items: center; gap: 10px; }
+    .theme-switch { display: inline-block; height: 20px; position: relative; width: 40px; }
+    .theme-switch input { display: none; }
+    .slider { background-color: #444; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 34px; }
+    .slider:before { background-color: #fff; bottom: 3px; content: ""; height: 14px; left: 3px; position: absolute; transition: .4s; width: 14px; border-radius: 50%; }
+    input:checked + .slider { background-color: var(--primary-orange); }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    header { text-align: center; padding: 60px 20px 20px; background: var(--header-gradient); }
+    header h1 { font-size: clamp(3rem, 10vw, 5.5rem); margin: 0; letter-spacing: 6px; text-transform: uppercase; font-weight: 900; }
+    header h2 { font-size: clamp(1.2rem, 4vw, 2.2rem); margin: 15px 0; font-weight: 300; }
+    .orange-divider { width: 80%; max-width: 900px; height: 5px; background: var(--primary-orange); margin: 30px auto; border-radius: 2px; }
+
+    .container { max-width: 1200px; margin: auto; padding: 20px 20px 100px; position: relative; }
+
+    /* EXPANDED BLOG SECTION */
+    .featured-blog {
+      background: var(--card-bg);
+      border-radius: 25px;
+      margin: 40px 0;
+      padding: 50px;
+      position: relative;
+      border-top: 10px solid var(--primary-orange);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    .blog-content { color: var(--card-text); }
+    .blog-content h2 { font-size: 2rem; margin: 0 0 15px 0; font-weight: 900; text-transform: uppercase; color: var(--secondary-orange); }
+    .rating-badge { background: #27ae60; color: white; padding: 5px 15px; border-radius: 20px; font-weight: 900; display: inline-block; margin-bottom: 20px; }
+    .blog-content h3 { font-size: 1.2rem; margin: 25px 0 10px 0; font-weight: 700; color: #111; border-left: 3px solid var(--primary-orange); padding-left: 10px; }
+    .blog-content p { font-size: 1rem; line-height: 1.7; color: var(--card-subtext); margin-bottom: 15px; }
+    
+    #more-content { display: none; margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 20px; }
+    
+    .read-more-btn {
+      background: var(--primary-orange);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    /* Confetti Animation */
+    .confetti { position: absolute; font-size: 2rem; pointer-events: none; z-index: 100; animation: fly 1s ease-out forwards; }
+    @keyframes fly { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--x), var(--y)) rotate(360deg); opacity: 0; } }
+
+    /* SOCIAL GRID */
+    .section-title-line { border-bottom: 2px solid var(--primary-orange); margin: 60px 0 40px; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 3px; }
+    .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
 
     .social-card {
-      background: rgba(22,27,34,0.9);
-      backdrop-filter: blur(8px);
-      padding: 30px 20px;
+      background: var(--card-bg);
       border-radius: 20px;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      padding: 30px;
+      color: var(--card-text);
+      position: relative;
+      border-bottom: 8px solid var(--secondary-orange);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
       opacity: 0;
-      transform: translateY(30px) scale(0.95);
+      transform: translateY(30px);
     }
-    .social-card.show {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-    .social-card:hover {
-      transform: translateY(-14px) scale(1.07) rotate(-1deg);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.55);
+    .social-card.reveal { opacity: 1; transform: translateY(0); }
+    
+    .social-card h3 { 
+        font-family: 'Playfair Display', serif; 
+        font-size: 1.8rem; 
+        margin: 0 0 10px 0; 
+        color: var(--secondary-orange);
     }
 
-    .social-card a {
+    .show-btn {
+      background: var(--primary-orange);
+      color: white !important;
       text-decoration: none;
-      color: #1abc9c;
-      font-size: 1.25rem;
+      padding: 8px 18px;
+      border-radius: 8px;
       font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      display: inline-block;
+      width: fit-content;
     }
 
-    footer {
-      padding: 30px 20px;
-      text-align: center;
-      background: #0e131a;
-      font-size: 0.9rem;
-      color: #aaaaaa;
+    .food-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -15px;
+      width: 75px;
+      height: 75px;
+      background: var(--secondary-orange);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.5rem;
+      border: 5px solid var(--bg-color);
     }
+
+    footer { text-align: center; padding: 60px; color: var(--desc-color); font-size: 0.8rem; letter-spacing: 2px; }
   </style>
 </head>
 <body>
 
-  <div class="progress"></div>
-  <div class="blob one"></div>
-  <div class="blob two"></div>
+  <div class="bg-food" style="top:15%; left:5%;">🍕</div>
+  <div class="bg-food" style="top:45%; right:8%;">🍔</div>
+  <div class="bg-food" style="top:75%; left:12%;">🍣</div>
+  <div class="bg-food" style="top:25%; right:20%;">🌮</div>
+  <div class="bg-food" style="top:85%; right:15%;">🍟</div>
+
+  <nav>
+    <div class="logo">TheCoreFive</div>
+    <div class="theme-switch-wrapper">
+      <label class="theme-switch" for="checkbox">
+        <input type="checkbox" id="checkbox" />
+        <div class="slider"></div>
+      </label>
+    </div>
+  </nav>
 
   <header>
-    <h1>NextGen Socials</h1>
-    <p>Empowering the next generation through social awareness, digital responsibility, and positive change.</p>
+    <h1>THECOREFIVE</h1>
+    <h2>URBAN EATS & REVIEWS</h2>
+    <div class="orange-divider"></div>
   </header>
 
-  <section class="about fade-in">
-    <h2>About Us</h2>
-    <p>
-      NextGen Socials is a social awareness initiative focused on educating, inspiring, and connecting people on issues that matter.
-      From mental health and digital well-being to community action and creative expression, we believe social media can be a force for good.
-    </p>
-  </section>
+  <div class="container">
+    <section class="featured-blog" id="blog-box">
+        <div class="blog-content">
+            <span class="rating-badge">Rating: 8/10 ⭐</span>
+            <h2>The Crispy Chicken Standard: Fried Nation, Mira Road</h2>
+            <p>Mira Road’s food scene is booming, but <strong>Fried Nation</strong> is currently setting a high bar for local comfort food. I recently visited the outlet to test their signature <em>Crispy Chicken Burger</em>—a trendy item that promises a lot and, surprisingly, delivers on most of it.</p>
+            
+            <h3>🥯 Construction & First Impressions</h3>
+            <p>A burger is only as good as its structure. Fried Nation’s presentation is on point; the burger arrives well-packed, ensuring the bun stays fluffy rather than soggy. The bun is tender with a slight char, providing a fresh, toasted base for the main event.</p>
 
-  <section class="socials fade-in">
-    <h2>Connect With Us</h2>
+            <button class="read-more-btn" id="read-more" onclick="showMore()">Continue Reading</button>
+
+            <div id="more-content">
+                <h3>🍗 The Patty: Crunch vs. Juice</h3>
+                <p>The standout feature is the chicken patty. It strikes that elusive balance of a golden-brown, jagged exterior with a remarkably tender interior. The seasoning is "middle-of-the-road" in the best way—savory enough to satisfy but not so spicy that it masks the chicken's quality.</p>
+                
+                <h3>🥗 The Sauce & Toppings</h3>
+                <p>The patty is elevated by a creamy house sauce that adds a necessary tang. Combined with crisp lettuce and fresh fillings, every bite offers a cool crunch that balances the richness of the fried chicken. It’s simple, effective, and hits the spot.</p>
+
+                <h3>⭐ The Final Verdict</h3>
+                <p>While it might not be the most "experimental" burger in town, it executes the classics flawlessly. At a reasonable price point, it’s a perfect go-to for a fast meal or a casual hangout. For those in Mira Road, this is a solid <strong>8/10</strong> experience that is definitely worth the trip.</p>
+            </div>
+        </div>
+    </section>
+
+    <h2 class="section-title-line">Social Network</h2>
     <div class="social-grid">
-<div class="social-card"><a href="https://www.instagram.com/p/DTanASSCHhO/?igsh=OWduc3U4ZTN1cWE3" target="_blank">Instagram</a></div>
-<div class="social-card"><a href="https://www.facebook.com/share/14LfS7sjnAa/?mibextid=wwXIfr" target="_blank">Facebook</a></div>
-<div class="social-card"><a href="https://www.linkedin.com/posts/thecore-four-0737203a5_as-you-pass-the-sgnp-gates-in-2026-the-vibrant-activity-7416537096653398016--GCH" target="_blank">LinkedIn</a></div>
-<div class="social-card"><a href="https://www.reddit.com/r/indiasocialcirclejerk/s/pS5dmLAAQ5" target="_blank">Reddit</a></div>
-<div class="social-card"><a href="https://youtube.com/shorts/TI6-XvMByfo?si=2sCDo9M_RD3-pZPv" target="_blank">YouTube</a></div>
-<div class="social-card"><a href="https://pin.it/LYTw9q2bM" target="_blank">Pinterest</a></div>
-<div class="social-card"><a href="https://tthecorefours.blogspot.com/2026/01/social-awareness-in-india-path-toward.html" target="_blank">Blog</a></div>
-<div class="social-card"><a href="https://www.threads.com/@thecorefour1357/post/DTa4n-MjI1Y" target="_blank">Threads</a></div>
-<div class="social-card"><a href="https://x.com/i/status/2010773042587443225" target="_blank">X (Twitter)</a></div>
-</div>
-  </section>
+      <div class="social-card">
+        <h3>Instagram</h3>
+        <p>Visual plating highlights and daily behind-the-scenes stories.</p>
+        <a href="https://www.instagram.com/thecorefive1357?igsh=MWNnZjZvOWVoeTRsdQ%3D%3D&utm_source=qr" target="_blank" class="show-btn">SHOW</a>
+        <div class="food-badge">📸</div>
+      </div>
+      <div class="social-card">
+        <h3>Facebook</h3>
+        <p>Join our community discussions and local food events.</p>
+        <a href="https://www.facebook.com/share/17ydoVNP3T/?mibextid=wwXIfr" target="_blank" class="show-btn">SHOW</a>
+        <div class="food-badge">👥</div>
+      </div>
+      <div class="social-card">
+        <h3>LinkedIn</h3>
+        <p>Professional side of hospitality and food-tech trends.</p>
+        <a href="https://www.linkedin.com/posts/thecore-four-0737203a5_as-you-pass-the-sgnp-gates-in-2026-the-vibrant-activity-7416537096653398016--GCH" target="_blank" class="show-btn">SHOW</a>
+        <div class="food-badge">👔</div>
+      </div>
+      <div class="social-card">
+        <h3>Reddit</h3>
+        <p>Unfiltered community chat on hidden food spots.</p>
+        <a href="https://www.reddit.com/r/indiasocialcirclejerk/s/pS5dmLAAQ5" target="_blank" class="show-btn">SHOW</a>
+        <div class="food-badge">💬</div>
+      </div>
+      <div class="social-card">
+        <h3>YouTube</h3>
+        <p>Full-length food tours and cinematic kitchen deep-dives.</p>
+        <a href="https://youtube.com/shorts/TI6-XvMByfo?si=2sCDo9M_RD3-pZPv" target="_blank" class="show-btn">SHOW</a>
+        <div class="food-badge">🎥</div>
+      </div>
+      <div class="social-card">
+        <h3>Pinterest</h3>
+        <p>Curated boards of food aesthetics and table settings.</p>
+        <a href="https://pin.it/LYTw9q2bM" target="_blank" class="show-btn">SHOW</a>
+        <div class="food-badge">📌</div>
+      </div>
+      <div class="social-card">
+        <h3>Threads</h3>
+        <p>Quick bites of flavor-filled conversation.</p>
+        <a href="https://www.threads.com/@thecorefive1357" target="_blank" class="show-btn">SHOW</a>
+        <div class="food-badge">🧵</div>
+      </div>
+      <div class="social-card">
+        <h3>X (Twitter)</h3>
+        <p>Real-time restaurant alerts and instant meal ratings.</p>
+        <a href="https://x.com/i/status/2010773042587443225" target="_blank" class="show-btn">SHOW</a>
+        <div class="food-badge">🐦</div>
+      </div>
+    </div>
+  </div>
 
-  <footer>
-    © 2026 NextGen Socials. All rights reserved.
-  </footer>
+  <footer>© 2026 THECOREFIVE | CURATING TASTE GLOBALLY</footer>
 
   <script>
-    const faders = document.querySelectorAll('.fade-in');
-    const cards = document.querySelectorAll('.social-card');
+    function showMore() {
+        const moreText = document.getElementById("more-content");
+        const btnText = document.getElementById("read-more");
+        if (moreText.style.display === "none" || moreText.style.display === "") {
+            moreText.style.display = "block";
+            btnText.innerHTML = "Show Less";
+            spawnFood(btnText);
+        } else {
+            moreText.style.display = "none";
+            btnText.innerHTML = "Continue Reading";
+        }
+    }
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('show');
-      });
-    }, { threshold: 0.2 });
+    function spawnFood(element) {
+        const emojis = ['🍔', '🍟', '🍗', '🥤', '😋'];
+        const rect = element.getBoundingClientRect();
+        for(let i=0; i<15; i++) {
+            const span = document.createElement('span');
+            span.className = 'confetti';
+            span.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            const x = (Math.random() - 0.5) * 400;
+            const y = (Math.random() - 0.5) * 400;
+            span.style.setProperty('--x', `${x}px`);
+            span.style.setProperty('--y', `${y}px`);
+            span.style.left = `${rect.left + rect.width/2}px`;
+            span.style.top = `${rect.top + window.scrollY}px`;
+            document.body.appendChild(span);
+            setTimeout(() => span.remove(), 1000);
+        }
+    }
 
-    faders.forEach(el => observer.observe(el));
-    cards.forEach((card, i) => {
-      setTimeout(() => observer.observe(card), i * 120);
+    const toggleSwitch = document.querySelector('#checkbox');
+    toggleSwitch.addEventListener('change', (e) => {
+        document.documentElement.setAttribute('data-theme', e.target.checked ? 'light' : 'dark');
     });
 
-    const progress = document.querySelector('.progress');
-    window.addEventListener('scroll', () => {
-      const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-      progress.style.width = scrolled + '%';
-    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('reveal'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.social-card').forEach(card => observer.observe(card));
   </script>
-
 </body>
 </html>
