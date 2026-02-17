@@ -14,10 +14,8 @@
     [data-theme="light"] {
       --bg: #f0f0f0; --glass: rgba(0, 0, 0, 0.05); --glass-border: rgba(0, 0, 0, 0.1); --text: #0a0a0a;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; transition: background 0.5s ease; }
-
-    #cursor { width: 20px; height: 20px; background: var(--primary); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; mix-blend-mode: difference; transition: transform 0.1s ease; }
 
     /* CENTERED LOADER */
     #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 1s ease; }
@@ -28,7 +26,7 @@
 
     nav { position: fixed; width: 100%; padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 100; backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); }
     .logo-img { width: 45px; height: 45px; border-radius: 50%; filter: drop-shadow(0 0 8px var(--primary)); }
-    #theme-btn { font-size: 1.5rem; background: none; border: none; color: var(--primary); padding: 10px; }
+    #theme-btn { font-size: 1.5rem; background: none; border: none; color: var(--primary); padding: 10px; cursor: pointer; }
 
     .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; }
     .parallax-text { font-family: 'Syncopate', sans-serif; font-size: clamp(4rem, 15vw, 12rem); line-height: 0.8; opacity: 0.1; position: absolute; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px var(--text); z-index: 1; }
@@ -47,10 +45,10 @@
     .social-box { background: var(--glass); border: 1px solid var(--glass-border); padding: 35px; border-radius: 30px; height: 320px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.4s; }
     .social-box:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(230, 126, 34, 0.05); }
     .social-box i { font-size: 2.8rem; color: var(--primary); }
-    .social-box a { color: var(--text); text-decoration: none; font-weight: bold; border-bottom: 2px solid var(--primary); align-self: flex-start; padding-bottom: 5px; }
+    .social-box a { color: var(--text); text-decoration: none; font-weight: bold; border-bottom: 2px solid var(--primary); align-self: flex-start; padding-bottom: 5px; cursor: pointer; }
 
     /* BACK TO TOP BUTTON */
-    #backToTop { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--primary); color: white; border: none; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; visibility: hidden; transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+    #backToTop { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--primary); color: white; border: none; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; visibility: hidden; transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.3); cursor: pointer; }
     #backToTop.show { opacity: 1; visibility: visible; }
     #backToTop:hover { transform: translateY(-5px) scale(1.1); background: var(--text); color: var(--primary); }
 
@@ -58,14 +56,12 @@
     .footer-logo { width: 60px; height: 60px; margin-bottom: 15px; border-radius: 50%; }
     #clock { font-family: 'Syncopate', sans-serif; font-size: 0.8rem; color: var(--primary); letter-spacing: 2px; margin-top: 15px; }
 
-    .btn-main { margin-top: 25px; padding: 18px 35px; background: var(--primary); color: white; border: none; border-radius: 100px; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
+    .btn-main { margin-top: 25px; padding: 18px 35px; background: var(--primary); color: white; border: none; border-radius: 100px; font-weight: 700; text-transform: uppercase; transition: 0.3s; cursor: pointer; }
     .hidden-loader { opacity: 0; pointer-events: none; }
   </style>
 </head>
 <body>
 
-  <div id="cursor"></div>
-  
   <div id="loader">
     <img src="logo.jpg" class="loader-logo-img" alt="logo">
     <div class="loader-circle"></div>
@@ -95,7 +91,7 @@
       <h2 style="font-size: 2.8rem; margin: 20px 0;">Review - Fried Nation - Mira Road</h2>
       <p style="font-size: 1.2rem; opacity: 0.8; line-height: 1.6; margin-bottom: 20px;">Fried Nation Crispy Chicken Burger is worth trying in case you are a lover of burgers around the Mira road.</p>
       
-      <button class="btn-main" id="read-btn" onclick="toggleBlog()" style="background: transparent; border: 1px solid var(--primary);">Full Review Content</button>
+      <button class="btn-main" id="read-btn" onclick="toggleBlog()" style="background: transparent; border: 1px solid var(--primary); color: inherit;">Full Review Content</button>
 
       <div id="blog-reveal">
         <p style="line-height: 1.8; opacity: 0.9; margin-bottom: 20px;">
@@ -132,12 +128,11 @@
     <div class="social-grid">
       <div class="social-box"><i class="fab fa-instagram"></i><h3>INSTAGRAM</h3><p>Cinematic snapshots of the city's best plates.</p><a href="https://www.instagram.com/p/DTanASSCHhO/" target="_blank">VIEW</a></div>
       <div class="social-box"><i class="fab fa-youtube"></i><h3>YOUTUBE</h3><p>High-production food tours and kitchen raids.</p><a href="https://youtube.com/shorts/TI6-XvMByfo" target="_blank">WATCH</a></div>
-      <div class="social-box"><i class="fab fa-linkedin"></i><h3>LINKEDIN</h3><p>The business and tech behind hospitality.</p><a href="https://www.linkedin.com/posts/thecore-four-0737203a5_as-you-pass-the-sgnp-gates-in-2026-the-vibrant-activity-7416537096653398016--GCH" target="_blank">NETWORK</a></div>
+      <div class="social-box"><i class="fab fa-linkedin-in"></i><h3>LINKEDIN</h3><p>The business and tech behind hospitality.</p><a href="https://www.linkedin.com/posts/thecore-four-0737203a5_as-you-pass-the-sgnp-gates-in-2026-the-vibrant-activity-7416537096653398016--GCH" target="_blank">NETWORK</a></div>
       <div class="social-box"><i class="fab fa-reddit-alien"></i><h3>REDDIT</h3><p>Unfiltered community debates on hidden gems.</p><a href="https://www.reddit.com/r/indiasocialcirclejerk/s/pS5dmLAAQ5" target="_blank">DISCUSS</a></div>
-      <div class="social-box"><i class="fab fa-pinterest"></i><h3>PINTEREST</h3><p>Curated aesthetics and mood boards for foodies.</p><a href="https://pin.it/LYTw9q2bM" target="_blank">INSPIRE</a></div>
+      <div class="social-box"><i class="fab fa-pinterest-p"></i><h3>PINTEREST</h3><p>Curated aesthetics and mood boards for foodies.</p><a href="https://pin.it/LYTw9q2bM" target="_blank">INSPIRE</a></div>
       <div class="social-box"><i class="fab fa-facebook-f"></i><h3>FACEBOOK</h3><p>Local community news and upcoming alerts.</p><a href="https://www.facebook.com/share/14LfS7sjnAa/" target="_blank">CONNECT</a></div>
       <div class="social-box"><i class="fa-solid fa-at"></i><h3>THREADS</h3><p>Real-time spicy takes on daily snacks.</p><a href="https://www.threads.com/@thecorefour1357" target="_blank">JOIN</a></div>
-      
       <div class="social-box">
         <i class="fa-brands fa-x-twitter"></i>
         <h3>X / TWITTER</h3>
@@ -154,30 +149,20 @@
   </footer>
 
   <script>
-    // CURSOR
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
-
-    // BACK TO TOP VISIBILITY & PARALLAX
+    // PARALLAX & BACK TO TOP VISIBILITY
     const btt = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
       const sc = window.pageYOffset;
       document.getElementById('p1').style.transform = `translateX(${sc * 0.4}px)`;
       document.getElementById('p2').style.transform = `translateX(-${sc * 0.4}px)`;
-      
       if (sc > 400) { btt.classList.add('show'); } 
       else { btt.classList.remove('show'); }
     });
 
-    // BACK TO TOP FUNCTION
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // BLOG TOGGLE
     function toggleBlog() {
       const reveal = document.getElementById('blog-reveal');
       const btn = document.getElementById('read-btn');
@@ -190,7 +175,6 @@
       }
     }
 
-    // THEME SWITCH
     const themeBtn = document.getElementById('theme-btn');
     themeBtn.addEventListener('click', () => {
       const isDark = document.body.getAttribute('data-theme') !== 'light';
@@ -198,7 +182,6 @@
       themeBtn.innerText = isDark ? '🌙' : '☀️';
     });
 
-    // CLOCK
     function updateClock() {
       const now = new Date();
       const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
@@ -207,7 +190,6 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // DISMISS LOADER
     window.onload = () => {
       setTimeout(() => {
         document.getElementById('loader').style.opacity = '0';
