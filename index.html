@@ -3,76 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TheCoreFive | Urban Eats Deep Dive</title>
+  <title>TheCoreFive | Urban Eats</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    :root {
-      --primary: #e67e22; --bg: #0a0a0a; --glass: rgba(255, 255, 255, 0.03);
-      --glass-border: rgba(255, 255, 255, 0.1); --text: #ffffff;
-    }
-    [data-theme="light"] {
-      --bg: #f0f0f0; --glass: rgba(0, 0, 0, 0.05); --glass-border: rgba(0, 0, 0, 0.1); --text: #0a0a0a;
-    }
+    :root { --primary: #e67e22; --bg: #0a0a0a; --glass: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.1); --text: #ffffff; }
+    [data-theme="light"] { --bg: #f0f0f0; --glass: rgba(0, 0, 0, 0.05); --glass-border: rgba(0, 0, 0, 0.1); --text: #0a0a0a; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; transition: background 0.5s ease; }
-
-    /* CENTERED LOADER */
     #loader { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 1s ease; }
     .loader-logo-img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 20px; border: 2px solid var(--primary); animation: pulse 2s infinite; }
     .loader-circle { width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } }
-
     nav { position: fixed; width: 100%; padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 100; backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); }
     .logo-img { width: 45px; height: 45px; border-radius: 50%; filter: drop-shadow(0 0 8px var(--primary)); }
     #theme-btn { font-size: 1.5rem; background: none; border: none; color: var(--primary); padding: 10px; cursor: pointer; }
-
     .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; }
     .parallax-text { font-family: 'Syncopate', sans-serif; font-size: clamp(4rem, 15vw, 12rem); line-height: 0.8; opacity: 0.1; position: absolute; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px var(--text); z-index: 1; }
     .hero-main { z-index: 2; }
     .hero-main h1 { font-size: clamp(2.5rem, 8vw, 5rem); text-transform: uppercase; letter-spacing: -2px; }
     .hero-main span { color: var(--primary); }
-
     .container { padding: 80px 10%; position: relative; z-index: 5; }
     .glass-card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 40px; padding: 50px; margin-bottom: 80px; }
     .badge { background: #27ae60; padding: 8px 18px; border-radius: 100px; font-weight: bold; font-size: 0.7rem; color: white; display: inline-block; margin-bottom: 10px; }
-
-    #blog-reveal { max-height: 0; opacity: 0; overflow: hidden; transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); }
-    #blog-reveal.open { max-height: 4000px; opacity: 1; margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--glass-border); }
-
     .social-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
     .social-box { background: var(--glass); border: 1px solid var(--glass-border); padding: 35px; border-radius: 30px; height: 320px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.4s; }
     .social-box:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(230, 126, 34, 0.05); }
     .social-box i { font-size: 2.8rem; color: var(--primary); }
     .social-box a { color: var(--text); text-decoration: none; font-weight: bold; border-bottom: 2px solid var(--primary); align-self: flex-start; padding-bottom: 5px; cursor: pointer; }
-
-    /* BACK TO TOP BUTTON */
     #backToTop { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--primary); color: white; border: none; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 999; opacity: 0; visibility: hidden; transition: 0.4s; box-shadow: 0 10px 20px rgba(0,0,0,0.3); cursor: pointer; }
     #backToTop.show { opacity: 1; visibility: visible; }
-    #backToTop:hover { transform: translateY(-5px) scale(1.1); background: var(--text); color: var(--primary); }
-
     footer { padding: 80px 5%; text-align: center; border-top: 1px solid var(--glass-border); }
     .footer-logo { width: 60px; height: 60px; margin-bottom: 15px; border-radius: 50%; }
     #clock { font-family: 'Syncopate', sans-serif; font-size: 0.8rem; color: var(--primary); letter-spacing: 2px; margin-top: 15px; }
-
-    .btn-main { margin-top: 25px; padding: 18px 35px; background: var(--primary); color: white; border: none; border-radius: 100px; font-weight: 700; text-transform: uppercase; transition: 0.3s; cursor: pointer; }
+    .btn-main { margin-top: 25px; padding: 18px 35px; background: var(--primary); color: white; border: none; border-radius: 100px; font-weight: 700; text-transform: uppercase; transition: 0.3s; cursor: pointer; text-decoration: none; display: inline-block; }
     .hidden-loader { opacity: 0; pointer-events: none; }
   </style>
 </head>
 <body>
-
   <div id="loader">
-    <img src="logo.jpg" class="loader-logo-img" alt="logo">
+    <img src="logo.jpg" class="loader-logo-img">
     <div class="loader-circle"></div>
     <h2 style="margin-top: 20px; letter-spacing: 10px; color: white; font-size: 0.9rem;">THE CORE FIVE</h2>
   </div>
-
-  <nav>
-    <img src="logo.jpg" class="logo-img" alt="logo">
-    <button id="theme-btn">☀️</button>
-  </nav>
-
+  <nav><img src="logo.jpg" class="logo-img"><button id="theme-btn">☀️</button></nav>
   <button id="backToTop" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
 
   <section class="hero">
@@ -91,38 +66,7 @@
       <h2 style="font-size: 2.8rem; margin: 20px 0;">Review - Fried Nation - Mira Road</h2>
       <p style="font-size: 1.2rem; opacity: 0.8; line-height: 1.6; margin-bottom: 20px;">Fried Nation Crispy Chicken Burger is worth trying in case you are a lover of burgers around the Mira road.</p>
       
-      <button class="btn-main" id="read-btn" onclick="toggleBlog()" style="background: transparent; border: 1px solid var(--primary); color: inherit;">Full Review Content</button>
-
-      <div id="blog-reveal">
-        <p style="line-height: 1.8; opacity: 0.9; margin-bottom: 20px;">
-          I have recently been to the outlet and I gave this trendy item a shot and it came out to be a fairly pleasing experience.
-        </p>
-
-        <h3 style="color: var(--primary); margin: 25px 0 15px;">🥯 First Impressions</h3>
-        <p style="line-height: 1.8; opacity: 0.9; margin-bottom: 20px;">
-          The burger was presented in a well-packed pack and appealing immediately. The bun was tender and slightly burnt, which made it fresh and fluffy. The burger appeared satisfying and delicious with the crispy chicken patty being golden-brown and of the proper size.
-        </p>
-        
-        <h3 style="color: var(--primary); margin: 25px 0 15px;">🍗 Taste & Texture</h3>
-        <p style="line-height: 1.8; opacity: 0.9; margin-bottom: 20px;">
-          The outstanding feature of this burger is evidently the chicken patty. It was crispy on the outside and tender inside that is just what you want in a crispy chicken burger. There was appropriate seasoning, neither too spicy, nor too bland. The chicken was complemented well with the sauce that was creamy and tangy. Fresh lettuce and other fillings also created light crunch to the sandwich as well as balanced the patty richness.
-        </p>
-
-        <h3 style="color: var(--primary); margin: 25px 0 15px;">🍴 Portion & Value</h3>
-        <p style="line-height: 1.8; opacity: 0.9; margin-bottom: 20px;">
-          The size of the portion is good and serves as a meal in itself, particularly when it is accompanied by fries or a drink. It is reasonably priced, which means that it is a good choice in the case of a fast meal or a friendly spot.
-        </p>
-
-        <h3 style="color: var(--primary); margin: 25px 0 15px;">📍 Overall Experience</h3>
-        <p style="line-height: 1.8; opacity: 0.9; margin-bottom: 20px;">
-          The burger is full of taste, freshness, and presentation. Although it is not the most original burger in the neighborhood, it does its job and fills the desires to eat crispy fried chicken.
-        </p>
-
-        <h3 style="color: var(--primary); margin: 25px 0 15px;">⭐ Final Verdict</h3>
-        <p style="line-height: 1.8; font-weight: bold; border-left: 4px solid var(--primary); padding-left: 20px;">
-          Due to its crisp patty, soft bread, balanced tastes the Crispy Chicken Burger at Fried Nation, Mira Road will score 8/10. It is an excellent option to all fast-food lovers and is worth trying in case you find yourself in the area.
-        </p>
-      </div>
+      <a href="good reviews.html" class="btn-main" style="background: transparent; border: 1px solid var(--primary); color: inherit;">Full Review Content</a>
     </div>
 
     <div class="social-grid">
@@ -133,63 +77,37 @@
       <div class="social-box"><i class="fab fa-pinterest-p"></i><h3>PINTEREST</h3><p>Curated aesthetics and mood boards for foodies.</p><a href="https://pin.it/LYTw9q2bM" target="_blank">INSPIRE</a></div>
       <div class="social-box"><i class="fab fa-facebook-f"></i><h3>FACEBOOK</h3><p>Local community news and upcoming alerts.</p><a href="https://www.facebook.com/share/14LfS7sjnAa/" target="_blank">CONNECT</a></div>
       <div class="social-box"><i class="fa-solid fa-at"></i><h3>THREADS</h3><p>Real-time spicy takes on daily snacks.</p><a href="https://www.threads.com/@thecorefour1357" target="_blank">JOIN</a></div>
-      <div class="social-box">
-        <i class="fa-brands fa-x-twitter"></i>
-        <h3>X / TWITTER</h3>
-        <p>Instant alerts and breaking food news.</p>
-        <a href="https://x.com/i/status/2010773042587443225" target="_blank">FOLLOW</a>
-      </div>
+      <div class="social-box"><i class="fa-brands fa-x-twitter"></i><h3>X / TWITTER</h3><p>Instant alerts and breaking food news.</p><a href="https://x.com/i/status/2010773042587443225" target="_blank">FOLLOW</a></div>
     </div>
   </div>
 
   <footer>
-    <img src="logo.jpg" class="footer-logo" alt="logo">
+    <img src="logo.jpg" class="footer-logo">
     <p>© 2026 THE CORE FIVE. CURATING TASTE GLOBALLY.</p>
-    <div id="clock">LOADING SYSTEM TIME...</div>
+    <div id="clock"></div>
   </footer>
 
   <script>
-    // PARALLAX & BACK TO TOP VISIBILITY
     const btt = document.getElementById('backToTop');
     window.addEventListener('scroll', () => {
       const sc = window.pageYOffset;
       document.getElementById('p1').style.transform = `translateX(${sc * 0.4}px)`;
       document.getElementById('p2').style.transform = `translateX(-${sc * 0.4}px)`;
-      if (sc > 400) { btt.classList.add('show'); } 
-      else { btt.classList.remove('show'); }
+      if (sc > 400) { btt.classList.add('show'); } else { btt.classList.remove('show'); }
     });
-
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function toggleBlog() {
-      const reveal = document.getElementById('blog-reveal');
-      const btn = document.getElementById('read-btn');
-      if (reveal.classList.contains('open')) {
-        reveal.classList.remove('open');
-        btn.innerText = 'Full Review Content';
-      } else {
-        reveal.classList.add('open');
-        btn.innerText = 'Show Less';
-      }
-    }
-
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     const themeBtn = document.getElementById('theme-btn');
     themeBtn.addEventListener('click', () => {
       const isDark = document.body.getAttribute('data-theme') !== 'light';
       document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
       themeBtn.innerText = isDark ? '🌙' : '☀️';
     });
-
     function updateClock() {
       const now = new Date();
       const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
       document.getElementById('clock').innerText = now.toLocaleDateString('en-US', options).toUpperCase();
     }
-    setInterval(updateClock, 1000);
-    updateClock();
-
+    setInterval(updateClock, 1000); updateClock();
     window.onload = () => {
       setTimeout(() => {
         document.getElementById('loader').style.opacity = '0';
